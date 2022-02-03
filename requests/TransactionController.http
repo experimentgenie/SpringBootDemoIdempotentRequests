@@ -1,0 +1,53 @@
+### Get all transactions
+### Get all transactions
+GET http://localhost:8080/transactions
+
+### Get a transaction by reference
+GET http://localhost:8080/transactions/some-reference-sample-2
+
+### Update a transaction by reference
+PUT http://localhost:8080/transactions/some-reference-sample-2
+Content-Type: application/json
+
+{
+  "description": "Nice Transaction Again (Updated)",
+  "amount": 5700.00
+}
+
+### Delete a transaction by reference
+DELETE http://localhost:8080/transactions/some-reference-sample-2
+
+## All idempotent in nature 👆🏾
+
+
+
+## Not idempotent in nature 👇🏽
+
+### POST (Add a new transaction at every request)
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "description": "Nice Transaction Added",
+  "amount": 5700.00
+}
+
+### POST (Add a new transaction at every request) - Timeout trap
+POST http://localhost:8080/transactions/timeout-trap
+Content-Type: application/json
+
+{
+  "description": "Nice Transaction Added (but no instant result)",
+  "amount": 5700.00
+}
+
+
+### POST (Add a new transaction at every request) - Timeout trap (Adding idempotent key)
+POST http://localhost:8080/transactions/timeout-trap
+Content-Type: application/json
+Idempotent-Key: 9362fcdd-56ef-47fc-b435-7b33538f2c8a-seo
+
+{
+  "description": "Nice Transaction Added (but no instant result)",
+  "amount": 5700.00
+}
